@@ -10,6 +10,8 @@ import java.math.BigDecimal;
 public class Settings {
     @Id private Long id = 1L;
     @Column(length = 160) private String businessName = "Mi negocio";
+    /** Logo del negocio como data URL (data:image/...;base64,...). Vacío = sin logo. */
+    @Column(length = 700000) private String logo = "";
     private boolean arqueo = false;
     @Column(precision = 14, scale = 2) private BigDecimal alertDiff = new BigDecimal("2000");
     private boolean createProductFromCash = true;
@@ -23,6 +25,8 @@ public class Settings {
     private boolean hideOutOfStock = false;
 
     public Long getId() { return id; }
+    public String getLogo() { return logo; }
+    public void setLogo(String v) { logo = v == null ? "" : v; }
     public String getBusinessName() { return businessName; }
     public void setBusinessName(String v) { businessName = v; }
     public boolean isArqueo() { return arqueo; }
