@@ -67,6 +67,16 @@ public class TreasuryService {
         return List.of(out, in);
     }
 
+    /** Primera cuenta del tipo pedido (o la primera que exista): destino por defecto de los cobros. */
+    public Account firstAccount(Account.Type type) {
+        List<Account> all = accounts.findAll();
+        return all.stream().filter(a -> a.getType() == type).findFirst().or(() -> all.stream().findFirst())
+                .orElseThrow(() -> new BusinessException("No hay cuentas: creá una caja o un banco"));
+    }
+
+    /** Quita los asientos que originó una operación (por ejemplo, al anular una venta). */
+    public void removeBySource(String sourceType, String sourceId) { movements.deleteBySourceTypeAndSourceId(sourceType, sourceId); }
+
     public List<Movement> movements(Long accountId) {
         return accountId == null ? movements.findAllByOrderByOccurredAtDescIdDesc()
                 : movements.findByAccountIdOrderByOccurredAtDescIdDesc(accountId);

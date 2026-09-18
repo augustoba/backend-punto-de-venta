@@ -78,6 +78,9 @@ public class PartyService {
         return entries.save(new PartyEntry(Party.CUSTOMER, customerId, "venta", total, null, comment, ref, user));
     }
 
+    /** Quita los asientos de cuenta corriente de una operación (anulación de venta). */
+    public void removeByRef(String ref) { entries.deleteByRef(ref); }
+
     /** Recepción de una compra sin pagar: aumenta la deuda con el proveedor. */
     public PartyEntry addPurchaseDebt(Long supplierId, BigDecimal total, String ref, String comment, String user) {
         supplier(supplierId);

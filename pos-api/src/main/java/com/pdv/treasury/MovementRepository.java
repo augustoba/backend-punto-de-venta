@@ -12,4 +12,5 @@ public interface MovementRepository extends JpaRepository<Movement, Long> {
 
     List<Movement> findByAccountIdOrderByOccurredAtDescIdDesc(Long accountId);
     List<Movement> findAllByOrderByOccurredAtDescIdDesc();
+    void deleteBySourceTypeAndSourceId(String sourceType, String sourceId);
 }

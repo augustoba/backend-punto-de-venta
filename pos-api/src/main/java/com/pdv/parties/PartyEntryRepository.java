@@ -15,5 +15,7 @@ public interface PartyEntryRepository extends JpaRepository<PartyEntry, Long> {
     @Query("select e.partyId, sum(e.delta) from PartyEntry e where e.party = :p group by e.partyId")
     List<Object[]> balances(@Param("p") PartyEntry.Party party);
 
+    void deleteByRef(String ref);
+
     List<PartyEntry> findByPartyAndPartyIdOrderByOccurredAtAscIdAsc(PartyEntry.Party party, Long partyId);
 }
