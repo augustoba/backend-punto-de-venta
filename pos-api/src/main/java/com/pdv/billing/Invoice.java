@@ -17,6 +17,7 @@ public class Invoice {
     @Column(precision = 14, scale = 2) private BigDecimal net;
     @Column(precision = 14, scale = 2) private BigDecimal iva;
     @Column(length = 500) private String items = "";
+    @Column(length = 80) private String username = "";
 
     protected Invoice() {}
     public Invoice(String number, Long customerId, BigDecimal total, BigDecimal net, BigDecimal iva, String items) {
@@ -30,4 +31,6 @@ public class Invoice {
     public BigDecimal getNet() { return net; }
     public BigDecimal getIva() { return iva; }
     public String getItems() { return items; }
+    public String getUsername() { return username; }
+    public void setUsername(String u) { this.username = u == null ? "" : u; }
 }

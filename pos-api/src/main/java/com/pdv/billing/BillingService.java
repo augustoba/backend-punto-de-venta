@@ -53,7 +53,9 @@ public class BillingService {
         if (total == null || total.signum() <= 0) throw new BusinessException("El total de la factura debe ser mayor a cero");
         BigDecimal rate = ivaRate == null ? new BigDecimal("21") : ivaRate;
         BigDecimal net = total.divide(BigDecimal.ONE.add(rate.movePointLeft(2)), 2, RoundingMode.HALF_UP);
-        String number = String.format("0001-%06d", invoices.count() + 1);
-        return invoices.save(new Invoice(number, customerId, total, net, total.subtract(net), items));
+        String number = String.format("000001-%06d", invoices.count() + 1);   // punto de venta 000001 + correlativo, como Envi
+        Invoice inv = new Invoice(number, customerId, total, net, total.subtract(net), items);
+        inv.setUsername(com.pdv.auth.CurrentUser.name());
+        return invoices.save(inv);
     }
 }
