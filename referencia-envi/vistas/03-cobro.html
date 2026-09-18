@@ -1,0 +1,21 @@
+<!doctype html><html lang="es"><meta charset="utf-8"><title>Guardar venta - Envi (réplica)</title>
+<link rel="stylesheet" href="../tokens.css"><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>body{background:linear-gradient(160deg,#cfc8bf,#bfae9c)}</style>
+<body><div class="modal">
+<div style="display:flex;justify-content:space-between"><h2 style="margin:0">Guardar venta</h2><span>✕</span></div>
+<div class="card" style="margin-top:14px"><small class="muted">CLIENTE Y VENDEDOR</small>
+  <div class="grid2" style="margin-top:8px">
+    <div class="field"><label>Cliente</label><select><option>Consumidor final</option><option>* Nuevo cliente *</option><option>Elena Torres</option><option>Jorge García</option><option>Lucía Martínez</option><option>José Pérez</option><option>Clara López</option></select></div>
+    <div class="field"><label>Vendedor</label><select><option>juan perez</option></select></div></div></div>
+<div class="card" style="margin-top:12px"><small class="muted">PAGO</small>
+  <div style="display:flex;gap:8px;margin:10px 0;align-items:center"><span class="badge b-gray">Tarjeta de Débito/Crédito</span><span class="badge b-gray">Transferencia</span><span class="badge" style="background:var(--cta);color:#fff">Efectivo</span><span style="flex:1"></span><label><input type="checkbox" checked style="height:auto"> Está pago</label></div>
+  <div class="badge b-blue" style="display:block;border-radius:10px;padding:10px;font-weight:600">ℹ Con cliente elegido y “Está pago” apagado: medio = <b>Cuenta corriente</b> y aviso “Se registrará en la cuenta corriente de este cliente” (queda como deuda).</div>
+  <p class="badge b-blue" style="margin-bottom:0">🏷 Aplicar descuento → modal “Gestionar descuentos” (porcentaje global)</p></div>
+<div class="card" style="margin-top:12px">
+  <label style="display:flex;justify-content:space-between">Emitir factura <input type="checkbox" style="height:auto"></label>
+  <small class="muted">Sin emisor: “No tenés ningún emisor de facturas configurado. Configuralo en Facturación”</small>
+  <hr style="border:0;border-top:1px solid var(--divider-color)">
+  <label style="display:flex;justify-content:space-between">Imprimir comprobante <input type="checkbox" style="height:auto"></label></div>
+<div class="field" style="margin-top:12px"><label>Notas</label><textarea style="width:100%;height:70px;border:1px solid var(--control-border-color);border-radius:12px" placeholder="Agregá una nota para esta venta"></textarea></div>
+<div style="display:flex;justify-content:space-between;align-items:center;margin-top:14px"><div><small class="muted">TOTAL A COBRAR</small><br><strong style="font-size:24px">$2.400,00</strong></div><div style="display:flex;gap:8px"><button>⌨ Atajos</button><button>Cancelar</button><button class="cta">Guardar</button></div></div>
+</div></body></html>

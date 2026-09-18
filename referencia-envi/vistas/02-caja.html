@@ -1,0 +1,31 @@
+<!doctype html><html lang="es"><meta charset="utf-8"><title>Caja registradora - Envi (réplica)</title>
+<link rel="stylesheet" href="../tokens.css"><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>body{background:linear-gradient(160deg,#f0e6da,#e9e4dd 40%,#e8c9a6 100%);min-height:100vh}.wrap{padding:0 20px 40px}.top{display:flex;justify-content:space-between;align-items:center;height:64px}
+.logo-b{display:inline-grid;place-items:center;width:56px;height:56px;border-radius:12px;background:#e8a45c;color:#fff;font-weight:800;font-size:12px;text-align:center}
+.pill{border-radius:99px;height:30px;width:30px;padding:0}</style>
+<body><div class="wrap">
+<div class="top"><div>☰ &nbsp;<span class="logo-b">TU LOGO</span> <b style="font-size:20px">maxkiosco</b></div><span>🔔 &nbsp; juan</span></div>
+<div style="display:flex;gap:14px;align-items:center;margin:8px 0 14px"><a href="01-ventas.html" style="color:var(--accent-blue);text-decoration:none">←</a><div><h1>Nueva venta</h1><div class="muted">Agregá productos y guardá la venta</div></div></div>
+<div style="display:grid;grid-template-columns:290px 1fr;gap:16px;align-items:start">
+  <div>
+    <div class="card"><b>Agregar producto</b>
+      <div class="field" style="margin-top:10px"><label>Buscar</label><input placeholder="🔍 Nombre o código  ▥" style="width:100%"></div>
+      <div class="field" style="margin-top:10px"><label>Lista de precios</label><select><option>Principal</option><option>Mayorista</option></select></div></div>
+    <div class="card" style="margin-top:12px;text-align:center"><a class="btn cta" href="03-cobro.html" style="display:grid;place-items:center;text-decoration:none">💾 Guardar venta</a>
+      <p style="color:var(--accent-blue);font-weight:700;margin:12px 0 0">🏷 Promociones</p><small class="muted">Modal: “No tienes promociones vigentes”</small></div>
+  </div>
+  <div>
+    <div class="card"><div style="display:flex;justify-content:space-between"><b>Resumen de la venta</b><span class="badge b-blue">1 producto</span></div>
+      <table style="margin-top:10px;background:none"><tr><th>Cantidad</th><th>Producto</th><th class="right">Precio</th><th class="right">Subtotal</th><th></th></tr>
+      <tr><td><button style="height:28px">−</button> 1 <button class="cta pill">+</button></td><td><b>Coca-Cola 1.5L</b><br><small class="muted">Bebida sin alcohol</small></td><td class="right">$2.400<sup>00</sup></td><td class="right"><b>$2.400,00</b></td><td>⋮<br><small class="muted">Agregar descuento · Eliminar</small></td></tr></table>
+      <div class="right"><small class="muted">TOTAL</small><br><strong style="font-size:30px">$2.400,00</strong></div></div>
+    <p><button>+ Crear producto</button> <small class="muted">(carga Rápida: nombre+precio · Completa: todos los campos)</small></p>
+    <div class="card"><b>Resultados para “a”</b> <span style="float:right" class="badge b-blue">☑ Con stock</span>
+      <table style="margin-top:10px;background:none"><tr><th>Producto</th><th>Categoría</th><th class="right">Precio</th><th></th></tr>
+      <tr><td>Galletitas Oreo 147gr</td><td>Galletita</td><td class="right">$ 1.190,00</td><td><button class="cta pill">+</button></td></tr>
+      <tr><td>Cerveza Stella Artois 1L</td><td>Bebida con alcohol</td><td class="right"><s class="muted">$7.200,00</s> $ 6.900,00</td><td><button class="cta pill">+</button></td></tr></table>
+      <p class="muted" style="text-align:center">Sin resultados: “Podés probar buscando productos sin stock…”</p></div>
+    <div class="card" style="margin-top:12px"><b>Atajos:</b> Alt+F buscar · Esc limpiar · Alt+S guardar · Enter aceptar · Alt+Q producto rápido · Alt+N producto completo · Alt+M promociones · (con producto seleccionado) Alt++ / Alt+− cantidad · Alt+X eliminar</div>
+    <div class="modal"><h3 style="margin-top:0">Gestionar descuento del producto</h3><div style="display:flex;gap:10px;align-items:end"><div class="field"><label>Precio original</label>$6.900</div><div class="field"><label>Descuento $</label><input value="0"><br><input placeholder="%" style="margin-top:6px"></div><div class="field"><label>Precio final</label><input value="6900"></div></div><p class="right"><button>Cancelar</button> <button class="cta">Aceptar</button></p></div>
+  </div>
+</div></div></body></html>

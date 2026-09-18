@@ -1,0 +1,38 @@
+<!doctype html><html lang="es"><meta charset="utf-8"><title>Ventas - Envi (réplica)</title>
+<link rel="stylesheet" href="../tokens.css"><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+<body><main id="content">
+<h1>Ventas</h1><p class="sub">Creá, editá y monitoreá las ventas de tu negocio.</p>
+<small class="muted">VENTAS DE HOY</small>
+<div class="kpis" style="margin-top:6px">
+  <div class="kpi"><small>Ventas</small><strong>3</strong><br><span class="muted">Hoy</span></div>
+  <div class="kpi"><small>Monto vendido</small><strong>$ 6.010,00</strong><br><span class="muted">Hoy</span></div>
+  <div class="kpi"><small>Medios de pago · 3 ventas</small>
+    <div style="display:flex;height:6px;border-radius:9px;overflow:hidden;margin:10px 0 6px"><i style="flex:1;background:var(--success)"></i><i style="flex:1;background:var(--accent-blue)"></i><i style="flex:1;background:var(--accent-amber)"></i></div>
+    <span class="muted">Cuenta corriente 33% · Efectivo 33% · Transferencia 33%</span></div>
+</div>
+<div class="toolbar"><input placeholder="🔍 Buscar..." style="width:270px"><button>Filtrar</button><span class="sp"></span><button>⟳</button><button>⭳</button><a class="btn cta" href="02-caja.html" style="display:inline-grid;place-items:center;text-decoration:none">+ Nueva venta</a></div>
+<div class="card" style="display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:12px">
+  <div class="field"><label>Período</label><select><option>Cualquier fecha</option></select></div>
+  <div class="field"><label>Fecha</label><input placeholder="desde – hasta"></div>
+  <div class="field"><label>Cliente del local</label><select><option>Todos</option></select></div>
+  <div class="field"><label>Vendedor</label><select><option>Todos</option></select></div>
+  <div class="field"><label>Medio de pago</label><select><option>Todos</option></select></div>
+  <div class="field"><label>Factura</label><select><option>Todos</option></select></div>
+</div>
+<table>
+<tr><th>Fecha</th><th>Vendedor</th><th>Cliente</th><th>Total</th><th>Medio de pago</th><th>Detalle</th><th>⊞</th></tr>
+<tr><td><b>18/09/26</b><br><small class="muted">14:05</small></td><td><span class="av" style="background:var(--avatar-brown)">J</span>juan perez</td><td><span class="av" style="background:var(--avatar-brown)">C</span>Clara López</td><td>$ 1.000,00</td><td><span class="badge" style="background:rgba(160,32,240,.14);color:#8a1fc0">Cuenta corriente</span></td><td>1 prod.<br><a href="#" style="color:var(--accent-blue)">Ver más ⌄</a></td><td>⋮</td></tr>
+<tr><td><b>18/09/26</b><br><small class="muted">14:03</small></td><td><span class="av" style="background:var(--avatar-brown)">J</span>juan perez</td><td><span class="av" style="background:var(--avatar-gray)">?</span><span class="muted">Sin definir</span></td><td>$ 2.400,00</td><td><span class="badge b-green">Efectivo</span></td><td>1 prod.<br><a href="#" style="color:var(--accent-blue)">Ver más ⌄</a></td><td>⋮</td></tr>
+<tr><td><b>18/09/26</b><br><small class="muted">13:45</small></td><td><span class="av" style="background:var(--avatar-brown)">J</span>juan perez</td><td><span class="av" style="background:var(--avatar-brown)">C</span>Clara López</td><td>$ 2.610,00</td><td><span class="badge b-blue">Transferencia</span></td><td>2 prod.<br><a href="#" style="color:var(--accent-blue)">Ver más ⌄</a></td><td>⋮</td></tr>
+<tr><td><b>15/09/26</b><br><small class="muted">13:45</small></td><td><span class="av" style="background:var(--avatar-brown)">J</span>juan perez</td><td><span class="av" style="background:var(--avatar-violet)">J</span>Jorge García</td><td>$ 7.000,00</td><td><span class="badge b-amber">Tarjeta de Débito/Crédito</span></td><td>1 prod.<br><a href="#" style="color:var(--accent-blue)">Ver más ⌄</a></td><td>⋮</td></tr>
+</table>
+<div class="pager"><span>Mostrando 1–20 de 62</span><span>‹ 1 2 3 ›</span></div>
+<div class="card" style="margin-top:16px"><b>Menú ⋮ por fila:</b> Ver detalle · Ver comprobante · Generar factura · Eliminar &nbsp;|&nbsp; <b>Columnas (⊞):</b> ID, Fecha, Vendedor, Origen, Cliente, Total, Medio de pago, Detalle</div>
+<div class="modal"><h3 style="margin-top:0">Detalles de venta <small class="muted">(modal, URL ?saleId=)</small></h3>
+  <div class="kpi" style="background:#e8e8f5"><small>Total de la venta</small><strong>$ 2.610,00</strong> <span class="badge b-green" style="float:right">Entregado</span></div>
+  <div class="grid2" style="margin:12px 0"><div><small class="muted">CLIENTE</small><br>Clara López</div><div><small class="muted">VENDEDOR</small><br>juan perez</div><div><small class="muted">FECHA Y HORA</small><br>18/09/26 13:45</div><div><small class="muted">MEDIO DE PAGO</small><br><span class="badge b-blue">Transferencia</span></div></div>
+  <table style="background:none"><tr><th>Producto</th><th>Precio</th><th>Cant.</th><th>Desc.</th><th>Subtotal</th><th></th></tr><tr><td>Galletitas Oreo 147gr</td><td>$1.190,00</td><td>×1</td><td>-</td><td>$1.190,00</td><td>🗑</td></tr><tr><td>Galletitas Chocolina 250gr</td><td>$1.420,00</td><td>×1</td><td>-</td><td>$1.420,00</td><td>🗑</td></tr></table>
+  <p style="text-align:center"><button>+ Agregar producto</button></p>
+  <div class="right">Subtotal $ 2.610,00<br>Descuento (+) − $ 0,00<br><b style="font-size:20px">Total $ 2.610,00</b></div>
+  <div style="display:flex;justify-content:space-between;margin-top:10px"><a href="#" style="color:var(--accent-blue)">Agregar notas</a><button class="cta">Aceptar</button></div></div>
+</main><script src="layout.js" data-active="Ventas"></script></body></html>
