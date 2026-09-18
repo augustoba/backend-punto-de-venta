@@ -16,7 +16,7 @@ public class OpenApiConfig {
         final String scheme = "bearerAuth";
         return new OpenAPI()
                 .info(new Info()
-                        .title("Estilos Pequeños API")
+                        .title("Punto de venta API")
                         .version("0.1.0")
                         .description("Catálogo público + panel de administración (endpoints /api/admin/** con JWT)."))
                 .addSecurityItem(new SecurityRequirement().addList(scheme))

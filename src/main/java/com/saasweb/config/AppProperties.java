@@ -351,7 +351,7 @@ public class AppProperties {
      */
     public static class Tenant {
         private String slug = "estilos-pequenos";
-        private String name = "Estilos Pequeños";
+        private String name = "Punto de venta";
 
         /**
          * Selector de tienda modo demo: si está en true, un request puede

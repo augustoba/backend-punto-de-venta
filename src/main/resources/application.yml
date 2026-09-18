@@ -65,7 +65,7 @@ app:
   # Tenant único de este deploy (ver PLAN_SAAS.md). En otro deploy, sobreescribir.
   tenant:
     slug: ${TENANT_SLUG:estilos-pequenos}
-    name: ${TENANT_NAME:Estilos Pequeños}
+    name: ${TENANT_NAME:Punto de venta}
     demo-switch-enabled: ${TENANT_DEMO_SWITCH_ENABLED:true}
   # URLs públicas de este deploy (Fase 13, Mercado Pago): BACKEND_PUBLIC_URL
   # tiene que ser alcanzable desde internet para que Mercado Pago pueda

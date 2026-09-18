@@ -188,14 +188,11 @@ public class SiteSettingsService {
     private static SiteSettings defaults() {
         SiteSettings s = new SiteSettings();
         s.setTheme("default");
-        s.setStoreName("Estilos Pequeños");
-        s.setWhatsappNumber("5491122334455");
-        s.setAboutText(
-                "Somos Estilos Pequeños 🧸 Hace 5 años vestimos a los más chicos con ropa cómoda, "
-                        + "de calidad y con onda. Elegimos cada prenda pensando en la comodidad de los peques "
-                        + "y la tranquilidad de las familias. ¡Gracias por elegirnos!");
-        s.setInstagram("estilospequenos_");
-        s.setFacebookUrl("https://www.facebook.com/share/1NZXdYgick/");
+        s.setStoreName("Punto de venta");
+        s.setWhatsappNumber("");
+        s.setAboutText("");
+        s.setInstagram("");
+        s.setFacebookUrl("");
         s.setWhatsappIntro(DEFAULT_WHATSAPP_INTRO);
         s.setWhatsappClosing(DEFAULT_WHATSAPP_CLOSING);
         // Cuenta de Cloudinary actual (antes hardcodeada en site-config.ts del
