@@ -30,6 +30,7 @@ Variables: `PORT`, `DB_USER`, `DB_PASSWORD`, `CORS_ORIGINS`.
 | B6 | Presupuestos, facturas, cheques, centros de costos | idem | ✅ |
 | B7 | Empleados/horas, ajustes, reportes | `ANALISIS_*.md` | ✅ |
 | B9 | Login y usuarios (`com.pdv.auth`) | — | ✅ |
+| B10 | Depósitos y transferencias de stock (`com.pdv.warehouses`) | — | ✅ |
 | F11 | Conectar el front a la API (hoy el front guarda en `localStorage`) | — | ⬜ |
 
 ## Endpoints (B1)
@@ -51,3 +52,4 @@ Variables: `PORT`, `DB_USER`, `DB_PASSWORD`, `CORS_ORIGINS`.
 - **B8** (2026-09-18): `PUT /api/accounts/{id}` y `PUT /api/categories/{id}` (editar cuenta y categoría con sus subcategorías), que el front necesita para operar contra la API. 1 prueba (42 en total).
 - **Nota MySQL** (2026-09-18): las pruebas corren en H2 y no detectan palabras reservadas de MySQL. Al probar contra MySQL real falló `pos_cash_session` por la columna `real` (ahora `real_amount`); `day` ya se había renombrado a `work_day`. Al agregar columnas conviene evitar `real`, `day`, `order`, `group`, `key`, `rank`, `condition`.
 - **B9** (2026-09-18): `com.pdv.auth`: `AppUser` (ADMIN/VENDEDOR, activo), contraseñas con PBKDF2-HMAC-SHA256 y sal (`PasswordHasher`), token firmado HMAC-SHA256 sin estado (`TokenService`, 12 h), `AuthFilter` que exige `Authorization: Bearer` en `/api/**` (menos `/api/auth/login` y OPTIONS) y `CurrentUser` que reemplaza al "sistema" en asientos, ventas, movimientos, etc. Al primer arranque crea el usuario `admin` con la contraseña `ADMIN_PASSWORD` (por defecto `admin`: **cambiala**). Endpoints: `POST /api/auth/login`, `PUT /api/auth/password`, `GET/POST /api/users`, `PUT /api/users/{id}/active` (los tres últimos sólo admin; no deja desactivar al único admin). Variables: `AUTH_ENABLED` (true), `AUTH_SECRET` (cambiar en producción), `ADMIN_PASSWORD`. 7 pruebas (49 en total); en las pruebas la autenticación va apagada y el filtro se verificó por HTTP contra la API levantada.
+- **B10** (2026-09-18): `com.pdv.warehouses`: depósitos (el «Principal» se crea solo) y transferencias entre ellos. El stock total del producto no se toca: el principal es «total − lo que hay en los otros», así ventas y compras siguen descontando del principal sin cambios; los demás depósitos guardan su cantidad en `pos_stock_level`. Valida origen≠destino, cantidades positivas, productos repetidos, combos (su stock sale de los componentes) y que alcance el stock en el origen. Endpoints: `GET/POST /api/warehouses`, `PUT /api/warehouses/{id}`, `GET /api/warehouses/stock`, `GET/POST /api/stock-transfers`. 6 pruebas (55 en total).
