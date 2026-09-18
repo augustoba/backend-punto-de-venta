@@ -34,9 +34,10 @@ public class SalesService {
     private final SettingsService settings;
     private final BillingService billing;
     private final PriceListService priceLists;
+    private final com.pdv.returns.SaleReturnRepository returns;
 
-    public SalesService(SaleRepository s, CashSessionRepository c, CatalogService cat, TreasuryService t, PartyService p, SettingsService st, BillingService b, PriceListService pl) {
-        this.sales = s; this.sessions = c; this.catalog = cat; this.treasury = t; this.parties = p; this.settings = st; this.billing = b; this.priceLists = pl;
+    public SalesService(SaleRepository s, CashSessionRepository c, CatalogService cat, TreasuryService t, PartyService p, SettingsService st, BillingService b, PriceListService pl, com.pdv.returns.SaleReturnRepository rr) {
+        this.sales = s; this.sessions = c; this.catalog = cat; this.treasury = t; this.parties = p; this.settings = st; this.billing = b; this.priceLists = pl; this.returns = rr;
     }
 
     public record LineIn(Long productId, int qty, BigDecimal price, BigDecimal discountUnit) {}
@@ -116,6 +117,7 @@ public class SalesService {
     /** Anular: devuelve el stock y quita los asientos de dinero y de cuenta corriente. */
     public void cancel(Long id, String user) {
         Sale s = get(id);
+        if (returns.existsBySaleId(id)) throw new BusinessException("La venta tiene devoluciones: no se puede eliminar");
         for (Sale.Line l : s.getLines()) restore(l.productId, l.qty, "Anulación venta #" + s.getId(), user);
         treasury.removeBySource("venta", "v" + s.getId());
         parties.removeByRef("v" + s.getId());

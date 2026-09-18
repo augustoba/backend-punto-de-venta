@@ -78,6 +78,12 @@ public class PartyService {
         return entries.save(new PartyEntry(Party.CUSTOMER, customerId, "venta", total, null, comment, ref, user));
     }
 
+    /** Nota de crédito: acredita al cliente sin mover dinero (baja su deuda o le deja saldo a favor). */
+    public PartyEntry addCredit(Long customerId, BigDecimal amount, String ref, String comment, String user) {
+        customer(customerId);
+        return entries.save(new PartyEntry(Party.CUSTOMER, customerId, "nota_credito", amount.negate(), null, comment, ref, user));
+    }
+
     /** Quita los asientos de cuenta corriente de una operación (anulación de venta). */
     public void removeByRef(String ref) { entries.deleteByRef(ref); }
 
