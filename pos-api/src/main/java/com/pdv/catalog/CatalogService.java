@@ -81,6 +81,12 @@ public class CatalogService {
         p.setStock(p.getStock() + delta);
     }
 
+    /** Cambia el costo (por ejemplo, al recibir una compra) y deja rastro en el historial de precios. */
+    public void setCost(Product p, BigDecimal cost, String user) {
+        logPrice(p, "cost", p.getCost(), cost, user);
+        p.setCost(cost);
+    }
+
     /** Baja de stock por una venta; en un combo descuenta cada componente. */
     public void consume(Long productId, int qty, String reason, String ref, String user) {
         Product p = get(productId);
