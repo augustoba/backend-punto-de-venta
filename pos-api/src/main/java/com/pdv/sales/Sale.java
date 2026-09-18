@@ -39,6 +39,7 @@ public class Sale {
     @Column(length = 500) private String notes = "";
     private boolean invoiced;
     private Long budgetId;
+    private Long priceListId;
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "pos_sale_line", joinColumns = @JoinColumn(name = "sale_id"))
     private List<Line> lines = new ArrayList<>();
@@ -69,6 +70,8 @@ public class Sale {
     public void setNotes(String v) { notes = v == null ? "" : v; }
     public boolean isInvoiced() { return invoiced; }
     public void setInvoiced(boolean v) { invoiced = v; }
+    public Long getPriceListId() { return priceListId; }
+    public void setPriceListId(Long id) { this.priceListId = id; }
     public Long getBudgetId() { return budgetId; }
     public void setBudgetId(Long v) { budgetId = v; }
     public List<Line> getLines() { return lines; }

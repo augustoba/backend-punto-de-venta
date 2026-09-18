@@ -2,6 +2,7 @@ package com.pdv.sales;
 
 import com.pdv.billing.BillingService;
 import com.pdv.catalog.CatalogService;
+import com.pdv.catalog.PriceListService;
 import com.pdv.catalog.Product;
 import com.pdv.common.BusinessException;
 import com.pdv.common.NotFoundException;
@@ -32,14 +33,20 @@ public class SalesService {
     private final PartyService parties;
     private final SettingsService settings;
     private final BillingService billing;
+    private final PriceListService priceLists;
 
-    public SalesService(SaleRepository s, CashSessionRepository c, CatalogService cat, TreasuryService t, PartyService p, SettingsService st, BillingService b) {
-        this.sales = s; this.sessions = c; this.catalog = cat; this.treasury = t; this.parties = p; this.settings = st; this.billing = b;
+    public SalesService(SaleRepository s, CashSessionRepository c, CatalogService cat, TreasuryService t, PartyService p, SettingsService st, BillingService b, PriceListService pl) {
+        this.sales = s; this.sessions = c; this.catalog = cat; this.treasury = t; this.parties = p; this.settings = st; this.billing = b; this.priceLists = pl;
     }
 
     public record LineIn(Long productId, int qty, BigDecimal price, BigDecimal discountUnit) {}
     public record SaleIn(Long customerId, List<LineIn> lines, BigDecimal discountPct, Method method, boolean paid, String notes,
-                         boolean invoice, Long budgetId, Boolean autoDiscount) {}
+                         boolean invoice, Long budgetId, Boolean autoDiscount, Long priceListId) {
+        /** Sin lista de precios (la Principal). */
+        public SaleIn(Long customerId, List<LineIn> lines, BigDecimal discountPct, Method method, boolean paid, String notes, boolean invoice, Long budgetId, Boolean autoDiscount) {
+            this(customerId, lines, discountPct, method, paid, notes, invoice, budgetId, autoDiscount, null);
+        }
+    }
 
     private static BigDecimal r2(BigDecimal v) { return v.setScale(2, RoundingMode.HALF_UP); }
 
@@ -50,12 +57,14 @@ public class SalesService {
         if (!canSell()) throw new BusinessException("La caja está cerrada: abrila para vender");
 
         Sale sale = new Sale();
-        sale.setSeller(user); sale.setCustomerId(in.customerId()); sale.setNotes(in.notes()); sale.setInvoiced(in.invoice()); sale.setBudgetId(in.budgetId());
+        sale.setSeller(user); sale.setCustomerId(in.customerId()); sale.setNotes(in.notes()); sale.setInvoiced(in.invoice()); sale.setBudgetId(in.budgetId()); sale.setPriceListId(in.priceListId());
         BigDecimal subtotal = BigDecimal.ZERO;
         for (LineIn l : in.lines()) {
             if (l.qty() <= 0) throw new BusinessException("La cantidad debe ser mayor a cero");
             Product p = catalog.get(l.productId());
-            BigDecimal base = l.price() != null ? l.price() : (p.getOffer().signum() > 0 ? p.getOffer() : p.getPrice());
+            BigDecimal base = l.price() != null ? l.price()
+                    : in.priceListId() != null ? priceLists.priceIn(p, in.priceListId())   // en una lista se ignora la oferta
+                    : (p.getOffer().signum() > 0 ? p.getOffer() : p.getPrice());
             BigDecimal disc = l.discountUnit() == null ? BigDecimal.ZERO : l.discountUnit();
             Sale.Line line = new Sale.Line();
             line.productId = p.getId(); line.name = p.getName(); line.qty = l.qty(); line.price = r2(base); line.discountUnit = r2(disc);
