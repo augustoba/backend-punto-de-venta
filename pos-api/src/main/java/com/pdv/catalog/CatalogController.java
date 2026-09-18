@@ -28,12 +28,12 @@ public class CatalogController {
 
     @GetMapping("/products") public List<ProductOut> list(@RequestParam(defaultValue = "false") boolean archived) { return service.list(archived).stream().map(this::out).toList(); }
     @GetMapping("/products/{id}") public ProductOut get(@PathVariable Long id) { return out(service.get(id)); }
-    @PostMapping("/products") public ProductOut create(@RequestBody CreateIn in) { return out(service.create(in.data(), in.initialStock() == null ? 0 : in.initialStock(), "sistema")); }
-    @PutMapping("/products/{id}") public ProductOut update(@PathVariable Long id, @RequestBody ProductData d) { return out(service.update(id, d, "sistema")); }
-    @PutMapping("/products/{id}/stock") public ProductOut setStock(@PathVariable Long id, @RequestBody StockIn in) { service.setStock(id, in.value(), "sistema"); return out(service.get(id)); }
+    @PostMapping("/products") public ProductOut create(@RequestBody CreateIn in) { return out(service.create(in.data(), in.initialStock() == null ? 0 : in.initialStock(), com.pdv.auth.CurrentUser.name())); }
+    @PutMapping("/products/{id}") public ProductOut update(@PathVariable Long id, @RequestBody ProductData d) { return out(service.update(id, d, com.pdv.auth.CurrentUser.name())); }
+    @PutMapping("/products/{id}/stock") public ProductOut setStock(@PathVariable Long id, @RequestBody StockIn in) { service.setStock(id, in.value(), com.pdv.auth.CurrentUser.name()); return out(service.get(id)); }
     @PostMapping("/products/archive") public void archive(@RequestBody IdsIn in) { service.archive(in.ids(), in.flag()); }
     @PostMapping("/products/delete") public void delete(@RequestBody IdsIn in) { service.delete(in.ids()); }
-    @PostMapping("/products/bulk-price") public void bulk(@RequestBody BulkPriceIn in) { service.bulkPrice(in.ids(), in.offer(), in.percent(), in.value(), in.round(), "sistema"); }
+    @PostMapping("/products/bulk-price") public void bulk(@RequestBody BulkPriceIn in) { service.bulkPrice(in.ids(), in.offer(), in.percent(), in.value(), in.round(), com.pdv.auth.CurrentUser.name()); }
 
     @GetMapping("/stock-moves") public List<StockMove> stockMoves(@RequestParam(required = false) Long productId) { return service.stockMoves(productId); }
     @GetMapping("/price-changes") public List<PriceChange> priceChanges() { return service.priceChanges(); }

@@ -8,3 +8,7 @@ spring:
       ddl-auto: create-drop
 pos:
   cors-origins: http://localhost:4200
+  auth:
+    enabled: false
+    secret: secreto-de-pruebas-0123456789-0123456789
+    initial-password: admin1234

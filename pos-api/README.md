@@ -29,6 +29,7 @@ Variables: `PORT`, `DB_USER`, `DB_PASSWORD`, `CORS_ORIGINS`.
 | B5 | Compras (borrador → pedido → recibido) y recepción | `ANALISIS_facturas_compras.md` | ✅ |
 | B6 | Presupuestos, facturas, cheques, centros de costos | idem | ✅ |
 | B7 | Empleados/horas, ajustes, reportes | `ANALISIS_*.md` | ✅ |
+| B9 | Login y usuarios (`com.pdv.auth`) | — | ✅ |
 | F11 | Conectar el front a la API (hoy el front guarda en `localStorage`) | — | ⬜ |
 
 ## Endpoints (B1)
@@ -49,3 +50,4 @@ Variables: `PORT`, `DB_USER`, `DB_PASSWORD`, `CORS_ORIGINS`.
 - **B7** (2026-09-18): `com.pdv.staff` (`Employee` ADMIN/VENDEDOR, `Shift` fichaje con horas calculadas, valida salida posterior a entrada) y `com.pdv.reports` (ventas por medio de pago y ranking de productos con ganancia sobre el costo congelado de cada línea). Ajustes ya estaban en `/api/settings` (B4). Endpoints: `/api/employees`, `/api/shifts`, `/api/reports/sales-by-method`, `/api/reports/product-ranking`. La columna del día se llama `work_day` porque `day` es reservada en H2. 4 pruebas (41 en total).
 - **B8** (2026-09-18): `PUT /api/accounts/{id}` y `PUT /api/categories/{id}` (editar cuenta y categoría con sus subcategorías), que el front necesita para operar contra la API. 1 prueba (42 en total).
 - **Nota MySQL** (2026-09-18): las pruebas corren en H2 y no detectan palabras reservadas de MySQL. Al probar contra MySQL real falló `pos_cash_session` por la columna `real` (ahora `real_amount`); `day` ya se había renombrado a `work_day`. Al agregar columnas conviene evitar `real`, `day`, `order`, `group`, `key`, `rank`, `condition`.
+- **B9** (2026-09-18): `com.pdv.auth`: `AppUser` (ADMIN/VENDEDOR, activo), contraseñas con PBKDF2-HMAC-SHA256 y sal (`PasswordHasher`), token firmado HMAC-SHA256 sin estado (`TokenService`, 12 h), `AuthFilter` que exige `Authorization: Bearer` en `/api/**` (menos `/api/auth/login` y OPTIONS) y `CurrentUser` que reemplaza al "sistema" en asientos, ventas, movimientos, etc. Al primer arranque crea el usuario `admin` con la contraseña `ADMIN_PASSWORD` (por defecto `admin`: **cambiala**). Endpoints: `POST /api/auth/login`, `PUT /api/auth/password`, `GET/POST /api/users`, `PUT /api/users/{id}/active` (los tres últimos sólo admin; no deja desactivar al único admin). Variables: `AUTH_ENABLED` (true), `AUTH_SECRET` (cambiar en producción), `ADMIN_PASSWORD`. 7 pruebas (49 en total); en las pruebas la autenticación va apagada y el filtro se verificó por HTTP contra la API levantada.

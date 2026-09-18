@@ -18,3 +18,10 @@ spring:
 
 pos:
   cors-origins: ${CORS_ORIGINS:http://localhost:4200}
+  auth:
+    enabled: ${AUTH_ENABLED:true}
+    # Cambiar en producción (variable AUTH_SECRET): firma los tokens de sesión.
+    secret: ${AUTH_SECRET:dev-secret-cambiar-en-produccion-0123456789}
+    ttl-hours: 12
+    # Contraseña del usuario `admin` que se crea al primer arranque (cambiala desde la app).
+    initial-password: ${ADMIN_PASSWORD:admin}

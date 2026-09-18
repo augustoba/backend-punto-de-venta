@@ -29,7 +29,7 @@ public class TreasuryController {
 
     @PostMapping("/accounts")
     public AccountOut createAccount(@RequestBody AccountIn in) {
-        return out(service.createAccount(in.name(), in.type(), in.color(), in.notes(), in.initial(), "sistema"));
+        return out(service.createAccount(in.name(), in.type(), in.color(), in.notes(), in.initial(), com.pdv.auth.CurrentUser.name()));
     }
 
     @PutMapping("/accounts/{id}")
@@ -47,11 +47,11 @@ public class TreasuryController {
 
     @PostMapping("/movements")
     public Movement addMovement(@RequestBody MovementIn in) {
-        return service.addMovement(in.accountId(), in.amount(), in.category(), in.subcategory(), in.description(), in.at(), "manual", "", "sistema");
+        return service.addMovement(in.accountId(), in.amount(), in.category(), in.subcategory(), in.description(), in.at(), "manual", "", com.pdv.auth.CurrentUser.name());
     }
 
     @PostMapping("/transfers")
-    public List<Movement> transfer(@RequestBody TransferIn in) { return service.transfer(in.fromId(), in.toId(), in.amount(), in.description(), "sistema"); }
+    public List<Movement> transfer(@RequestBody TransferIn in) { return service.transfer(in.fromId(), in.toId(), in.amount(), in.description(), com.pdv.auth.CurrentUser.name()); }
 
     @GetMapping("/categories") public List<Category> categories() { return categories.findAll(); }
 

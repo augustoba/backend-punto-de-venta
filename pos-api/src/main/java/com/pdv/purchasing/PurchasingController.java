@@ -16,9 +16,9 @@ public class PurchasingController {
 
     @GetMapping public List<Purchase> list() { return service.list(); }
     @GetMapping("/{id}") public Purchase get(@PathVariable Long id) { return service.get(id); }
-    @PostMapping public Purchase create(@RequestBody SaveIn in) { return service.save(null, in.supplierId(), in.lines(), in.name(), "sistema"); }
-    @PutMapping("/{id}") public Purchase update(@PathVariable Long id, @RequestBody SaveIn in) { return service.save(id, in.supplierId(), in.lines(), in.name(), "sistema"); }
+    @PostMapping public Purchase create(@RequestBody SaveIn in) { return service.save(null, in.supplierId(), in.lines(), in.name(), com.pdv.auth.CurrentUser.name()); }
+    @PutMapping("/{id}") public Purchase update(@PathVariable Long id, @RequestBody SaveIn in) { return service.save(id, in.supplierId(), in.lines(), in.name(), com.pdv.auth.CurrentUser.name()); }
     @PostMapping("/{id}/order") public Purchase order(@PathVariable Long id) { return service.markOrdered(id); }
-    @PostMapping("/{id}/receive") public Purchase receive(@PathVariable Long id, @RequestBody ReceiveIn in) { return service.receive(id, in.paid(), in.accountId(), "sistema"); }
+    @PostMapping("/{id}/receive") public Purchase receive(@PathVariable Long id, @RequestBody ReceiveIn in) { return service.receive(id, in.paid(), in.accountId(), com.pdv.auth.CurrentUser.name()); }
     @DeleteMapping("/{id}") public void delete(@PathVariable Long id) { service.delete(id); }
 }

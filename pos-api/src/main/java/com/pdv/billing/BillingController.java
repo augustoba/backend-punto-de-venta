@@ -18,8 +18,8 @@ public class BillingController {
     public record InvoiceIn(Long customerId, String items, BigDecimal total, BigDecimal ivaRate) {}
 
     @GetMapping("/budgets") public List<Budget> budgets() { return service.budgets(); }
-    @PostMapping("/budgets") public Budget create(@RequestBody BudgetIn in) { return service.saveBudget(null, in.customerId(), in.expires(), in.lines(), in.notes(), "sistema"); }
-    @PutMapping("/budgets/{id}") public Budget update(@PathVariable Long id, @RequestBody BudgetIn in) { return service.saveBudget(id, in.customerId(), in.expires(), in.lines(), in.notes(), "sistema"); }
+    @PostMapping("/budgets") public Budget create(@RequestBody BudgetIn in) { return service.saveBudget(null, in.customerId(), in.expires(), in.lines(), in.notes(), com.pdv.auth.CurrentUser.name()); }
+    @PutMapping("/budgets/{id}") public Budget update(@PathVariable Long id, @RequestBody BudgetIn in) { return service.saveBudget(id, in.customerId(), in.expires(), in.lines(), in.notes(), com.pdv.auth.CurrentUser.name()); }
     @PutMapping("/budgets/{id}/status") public Budget status(@PathVariable Long id, @RequestBody StatusIn in) { return service.setStatus(id, in.status()); }
     @DeleteMapping("/budgets/{id}") public void delete(@PathVariable Long id) { service.deleteBudget(id); }
 

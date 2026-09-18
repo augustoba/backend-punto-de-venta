@@ -23,8 +23,8 @@ public class SalesController {
 
     @GetMapping("/sales") public List<Sale> sales() { return service.list(); }
     @GetMapping("/sales/{id}") public Sale sale(@PathVariable Long id) { return service.get(id); }
-    @PostMapping("/sales") public Sale register(@RequestBody SalesService.SaleIn in) { return service.register(in, "sistema"); }
-    @DeleteMapping("/sales/{id}") public void cancel(@PathVariable Long id) { service.cancel(id, "sistema"); }
+    @PostMapping("/sales") public Sale register(@RequestBody SalesService.SaleIn in) { return service.register(in, com.pdv.auth.CurrentUser.name()); }
+    @DeleteMapping("/sales/{id}") public void cancel(@PathVariable Long id) { service.cancel(id, com.pdv.auth.CurrentUser.name()); }
 
     @GetMapping("/cash/status")
     public Map<String, Object> status() {
@@ -32,8 +32,8 @@ public class SalesController {
         return Map.of("canSell", service.canSell(), "open", open.isPresent(), "session", open.orElse(null) == null ? Map.of() : open.get(), "expected", service.expectedClose());
     }
     @GetMapping("/cash/previous-close") public BigDecimal previous(@RequestParam Long accountId) { return service.previousClose(accountId); }
-    @PostMapping("/cash/open") public CashSession open(@RequestBody OpenIn in) { return service.open(in.accountId(), in.balance(), in.notes(), "sistema"); }
-    @PostMapping("/cash/close") public CashSession close(@RequestBody CloseIn in) { return service.close(in.real(), in.notes(), "sistema"); }
+    @PostMapping("/cash/open") public CashSession open(@RequestBody OpenIn in) { return service.open(in.accountId(), in.balance(), in.notes(), com.pdv.auth.CurrentUser.name()); }
+    @PostMapping("/cash/close") public CashSession close(@RequestBody CloseIn in) { return service.close(in.real(), in.notes(), com.pdv.auth.CurrentUser.name()); }
     @GetMapping("/cash/sessions") public List<CashSession> sessions() { return service.sessions(); }
     @PutMapping("/cash/sessions/{id}/verified") public CashSession verify(@PathVariable Long id, @RequestBody VerifyIn in) { return service.verify(id, in.verified()); }
     @PutMapping("/cash/sessions/{id}/note") public CashSession note(@PathVariable Long id, @RequestBody NoteIn in) { return service.note(id, in.note()); }

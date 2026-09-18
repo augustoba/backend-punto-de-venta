@@ -27,14 +27,14 @@ public class PartyController {
     @PutMapping("/customers/{id}") public CustomerOut updateCustomer(@PathVariable Long id, @RequestBody Customer c) { return out(service.saveCustomer(id, c)); }
     @GetMapping("/customers/{id}/ledger") public List<PartyService.Row> customerLedger(@PathVariable Long id) { return service.ledger(Party.CUSTOMER, id); }
     @PostMapping("/customers/{id}/movements")
-    public CustomerOut customerMovement(@PathVariable Long id, @RequestBody MovementIn in) { service.customerMovement(id, in.kind(), in.amount(), in.accountId(), in.comment(), "sistema"); return out(service.customer(id)); }
+    public CustomerOut customerMovement(@PathVariable Long id, @RequestBody MovementIn in) { service.customerMovement(id, in.kind(), in.amount(), in.accountId(), in.comment(), com.pdv.auth.CurrentUser.name()); return out(service.customer(id)); }
 
     @GetMapping("/suppliers") public List<SupplierOut> suppliers() { return service.suppliers().stream().map(this::out).toList(); }
     @PostMapping("/suppliers") public SupplierOut createSupplier(@RequestBody Supplier s) { return out(service.saveSupplier(null, s)); }
     @PutMapping("/suppliers/{id}") public SupplierOut updateSupplier(@PathVariable Long id, @RequestBody Supplier s) { return out(service.saveSupplier(id, s)); }
     @GetMapping("/suppliers/{id}/ledger") public List<PartyService.Row> supplierLedger(@PathVariable Long id) { return service.ledger(Party.SUPPLIER, id); }
     @PostMapping("/suppliers/{id}/movements")
-    public SupplierOut supplierMovement(@PathVariable Long id, @RequestBody MovementIn in) { service.supplierMovement(id, in.kind(), in.amount(), in.accountId(), in.comment(), "sistema"); return out(service.supplier(id)); }
+    public SupplierOut supplierMovement(@PathVariable Long id, @RequestBody MovementIn in) { service.supplierMovement(id, in.kind(), in.amount(), in.accountId(), in.comment(), com.pdv.auth.CurrentUser.name()); return out(service.supplier(id)); }
 
     @GetMapping("/accounts-receivable-payable") public Totals totals() { return new Totals(service.totalReceivable(), service.totalPayable()); }
 }
