@@ -1,0 +1,20 @@
+server:
+  port: ${PORT:8081}
+
+spring:
+  application:
+    name: pos-api
+  datasource:
+    # Base propia del punto de venta (NO es la del ecommerce). Las tablas de esta API llevan prefijo pos_.
+    url: jdbc:mysql://localhost:3306/puntoventa?createDatabaseIfNotExist=true&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
+    username: ${DB_USER:root}
+    password: ${DB_PASSWORD:root}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    properties:
+      hibernate.jdbc.time_zone: UTC
+
+pos:
+  cors-origins: ${CORS_ORIGINS:http://localhost:4200}
