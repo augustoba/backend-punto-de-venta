@@ -23,7 +23,7 @@ Variables: `PORT`, `DB_USER`, `DB_PASSWORD`, `CORS_ORIGINS`.
 | # | Módulo | Referencia | Estado |
 |---|---|---|---|
 | B1 | Esqueleto + **tesorería**: cuentas, libro de movimientos, transferencias, categorías | `ANALISIS_tesoreria.md` | ✅ |
-| B2 | Catálogo: productos, combos, libro de stock, historial de precios | `ANALISIS_stock.md` | ⬜ |
+| B2 | Catálogo: productos, combos, libro de stock, historial de precios | `ANALISIS_stock.md` | ✅ |
 | B3 | Clientes y proveedores + cuenta corriente (libro con saldo corrido) | `ANALISIS_cuentas_corrientes.md` | ⬜ |
 | B4 | Ventas + caja (apertura/cierre/arqueo) + descuentos | `ANALISIS.md`, `ANALISIS_caja.md`, `ANALISIS_presupuestos_descuentos.md` | ⬜ |
 | B5 | Compras (borrador → pedido → recibido) y recepción | `ANALISIS_facturas_compras.md` | ⬜ |
@@ -41,3 +41,4 @@ Variables: `PORT`, `DB_USER`, `DB_PASSWORD`, `CORS_ORIGINS`.
 
 ## Bitácora
 - **B1** (2026-09-18): proyecto Spring Boot 3.3.5 / Java 21; entidades `Account`, `Movement`, `Category`; `TreasuryService` con las reglas; controlador; seeder de categorías; 5 pruebas (`TreasuryServiceTest`) en verde con H2.
+- **B2** (2026-09-18): paquete `com.pdv.catalog`: `Product` (combo con `ComboItem`, stock puede ser negativo), `StockMove` (libro de stock), `PriceChange`, `CatalogService` (`move` es el único punto que cambia stock; `consume` baja componentes de un combo; `setStock`, `bulkPrice`, archivar/eliminar), `CatalogController` (`/api/products`, `/api/stock-moves`, `/api/price-changes`). 6 pruebas. Nota: los repositorios de Spring Data deben ser interfaces de primer nivel (las anidadas no se registran).
