@@ -53,7 +53,7 @@ app:
   cors:
     allowed-origins: ${CORS_ORIGINS:http://localhost:4200,http://localhost:4300}
   seed:
-    enabled: ${SEED_ENABLED:true}
+    enabled: ${SEED_ENABLED:false}
   # Valores iniciales del servicio de mail (Brevo SMTP) — sólo siembran
   # PlatformMailSettings la primera vez; después se editan desde el panel.
   mail:
