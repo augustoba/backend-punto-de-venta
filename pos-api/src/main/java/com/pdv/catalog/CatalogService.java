@@ -25,7 +25,22 @@ public class CatalogService {
     public CatalogService(ProductRepository p, StockMoveRepository m, PriceChangeRepository c) { this.products = p; this.moves = m; this.prices = c; }
 
     public record ProductData(String name, String barcode, Long categoryId, Long supplierId, BigDecimal cost, BigDecimal price,
-                              BigDecimal offer, Integer lowStock, Integer idealStock, BigDecimal iva, List<Product.ComboItem> combo) {}
+                              BigDecimal offer, Integer lowStock, Integer idealStock, BigDecimal iva, List<Product.ComboItem> combo, String image) {
+        /** Sin foto: en la actualización deja la que ya tenía. */
+        public ProductData(String name, String barcode, Long categoryId, Long supplierId, BigDecimal cost, BigDecimal price,
+                           BigDecimal offer, Integer lowStock, Integer idealStock, BigDecimal iva, List<Product.ComboItem> combo) {
+            this(name, barcode, categoryId, supplierId, cost, price, offer, lowStock, idealStock, iva, combo, null);
+        }
+    }
+
+    /** Sólo imágenes en data URL (PNG/JPG/WebP) y de tamaño acotado; el front las reduce antes de subirlas. */
+    static String validImage(String image) {
+        if (image == null || image.isBlank()) return "";
+        if (!image.startsWith("data:image/png;base64,") && !image.startsWith("data:image/jpeg;base64,") && !image.startsWith("data:image/webp;base64,"))
+            throw new BusinessException("La foto debe ser una imagen PNG, JPG o WebP");
+        if (image.length() > 250_000) throw new BusinessException("La foto es demasiado pesada (máximo ~180 KB)");
+        return image;
+    }
 
     public Product get(Long id) { return products.findById(id).orElseThrow(() -> new NotFoundException("Producto", id)); }
     public List<Product> list(boolean archived) { return products.findByArchivedOrderByIdDesc(archived); }
@@ -68,6 +83,7 @@ public class CatalogService {
         if (d.idealStock() != null) p.setIdealStock(d.idealStock());
         if (d.iva() != null) p.setIva(d.iva());
         if (d.combo() != null) { p.getCombo().clear(); p.getCombo().addAll(d.combo()); }
+        if (d.image() != null) p.setImage(validImage(d.image()));   // null = no tocar; "" = quitar
     }
 
     private void logPrice(Product p, String field, BigDecimal prev, BigDecimal next, String user) {

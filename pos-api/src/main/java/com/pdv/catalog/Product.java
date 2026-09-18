@@ -32,6 +32,8 @@ public class Product {
     private int lowStock;
     private int idealStock;
     @Column(precision = 5, scale = 2) private BigDecimal iva = new BigDecimal("21");
+    /** Foto del producto como data URL (JPEG/PNG/WebP chica). Vacío = sin foto. */
+    @Column(length = 300000) private String image = "";
     private boolean archived;
     private Instant createdAt = Instant.now();
     @ElementCollection(fetch = FetchType.EAGER)
@@ -40,6 +42,8 @@ public class Product {
 
     public Long getId() { return id; }
     public String getName() { return name; }
+    public String getImage() { return image; }
+    public void setImage(String v) { image = v == null ? "" : v; }
     public void setName(String v) { name = v; }
     public String getBarcode() { return barcode; }
     public void setBarcode(String v) { barcode = v == null ? "" : v; }

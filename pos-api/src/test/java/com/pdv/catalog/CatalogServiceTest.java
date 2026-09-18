@@ -66,4 +66,15 @@ class CatalogServiceTest {
         service.bulkPrice(List.of(p.getId()), false, true, bd("10"), true, "t");
         assertEquals(0, bd("1100").compareTo(service.get(p.getId()).getPrice()));
     }
+
+    @Test void fotoDelProducto() {
+        String foto = "data:image/jpeg;base64,/9j/4AAQ";
+        Product p = service.create(new ProductData("Con foto", "", null, null, BigDecimal.ONE, BigDecimal.TEN, BigDecimal.ZERO, 0, 0, new BigDecimal("21"), null, foto), 0, "t");
+        assertEquals(foto, p.getImage());
+        service.update(p.getId(), new ProductData("Con foto", "", null, null, BigDecimal.ONE, BigDecimal.TEN, BigDecimal.ZERO, 0, 0, new BigDecimal("21"), null), "t");
+        assertEquals(foto, service.get(p.getId()).getImage(), "sin imagen en la actualización no se pierde la foto");
+        service.update(p.getId(), new ProductData("Con foto", "", null, null, BigDecimal.ONE, BigDecimal.TEN, BigDecimal.ZERO, 0, 0, new BigDecimal("21"), null, ""), "t");
+        assertEquals("", service.get(p.getId()).getImage(), "vacío la quita");
+        assertThrows(BusinessException.class, () -> service.create(new ProductData("X", "", null, null, BigDecimal.ONE, BigDecimal.TEN, BigDecimal.ZERO, 0, 0, new BigDecimal("21"), null, "http://x/y.png"), 0, "t"));
+    }
 }
