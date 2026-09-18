@@ -27,6 +27,21 @@ public class TreasuryService {
         this.accounts = a; this.movements = m; this.categories = c;
     }
 
+    public Account updateAccount(Long id, String name, Account.Type type, String color, String notes) {
+        if (name == null || name.isBlank()) throw new BusinessException("La cuenta necesita un nombre");
+        Account a = accounts.findById(id).orElseThrow(() -> new NotFoundException("Cuenta", id));
+        a.setName(name.trim()); if (type != null) a.setType(type); if (color != null) a.setColor(color); if (notes != null) a.setNotes(notes);
+        return accounts.save(a);
+    }
+
+    public Category updateCategory(Long id, String name, String emoji, String color, List<String> subs) {
+        if (name == null || name.isBlank()) throw new BusinessException("La categoría necesita un nombre");
+        Category c = categories.findById(id).orElseThrow(() -> new NotFoundException("Categoría", id));
+        c.setName(name.trim()); if (emoji != null) c.setEmoji(emoji); if (color != null) c.setColor(color);
+        if (subs != null) { c.getSubcategories().clear(); c.getSubcategories().addAll(subs); }
+        return categories.save(c);
+    }
+
     public Account createAccount(String name, Account.Type type, String color, String notes, BigDecimal initial, String user) {
         if (name == null || name.isBlank()) throw new BusinessException("La cuenta necesita un nombre");
         Account acc = accounts.save(new Account(name.trim(), type, color, notes));

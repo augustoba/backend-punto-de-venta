@@ -15,11 +15,22 @@ import static org.junit.jupiter.api.Assertions.*;
 @Transactional
 class TreasuryServiceTest {
     @Autowired TreasuryService service;
+    @Autowired CategoryRepository categoryRepo;
 
     private Account acc(String name, Account.Type t, String initial) {
         return service.createAccount(name, t, null, null, new BigDecimal(initial), "test");
     }
     private BigDecimal bd(String s) { return new BigDecimal(s); }
+
+    @Test void editarCuentaYCategoria() {
+        Account a = service.createAccount("Vieja", Account.Type.CAJA, "#111111", "", null, "t");
+        service.updateAccount(a.getId(), "Nueva", Account.Type.BANCO, "#222222", "nota");
+        assertEquals("Nueva", service.accounts().stream().filter(x -> x.getId().equals(a.getId())).findFirst().orElseThrow().getName());
+        Category c = service.updateCategory(categoryRepo.findAll().get(0).getId(), "Renombrada", "X", "#333333", java.util.List.of("Sub A"));
+        assertEquals("Renombrada", c.getName());
+        assertEquals(java.util.List.of("Sub A"), c.getSubcategories());
+        assertThrows(com.pdv.common.BusinessException.class, () -> service.updateAccount(a.getId(), " ", null, null, null));
+    }
 
     @Test void saldoInicialEsUnMovimientoYElSaldoEsLaSuma() {
         Account a = acc("Caja test", Account.Type.CAJA, "1000");

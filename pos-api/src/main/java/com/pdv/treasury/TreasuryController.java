@@ -32,6 +32,16 @@ public class TreasuryController {
         return out(service.createAccount(in.name(), in.type(), in.color(), in.notes(), in.initial(), "sistema"));
     }
 
+    @PutMapping("/accounts/{id}")
+    public AccountOut updateAccount(@PathVariable Long id, @RequestBody AccountIn in) {
+        return out(service.updateAccount(id, in.name(), in.type(), in.color(), in.notes()));
+    }
+
+    @PutMapping("/categories/{id}")
+    public Category updateCategory(@PathVariable Long id, @RequestBody CategoryIn in) {
+        return service.updateCategory(id, in.name(), in.emoji(), in.color(), in.subcategories());
+    }
+
     @GetMapping("/movements")
     public List<Movement> movements(@RequestParam(required = false) Long accountId) { return service.movements(accountId); }
 
