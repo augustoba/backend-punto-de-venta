@@ -9,6 +9,24 @@ import java.math.BigDecimal;
 @Table(name = "pos_settings")
 public class Settings {
     @Id private Long id = 1L;
+    // --- Mi negocio (sucursal) ---
+    @Column(length = 9) private String businessColor = "#eeb37a";
+    @Column(length = 200) private String address = "";
+    @Column(length = 80) private String city = "";
+    @Column(length = 40) private String phone = "";
+    @Column(length = 160) private String contactEmail = "";
+    // --- Comprobantes e impresión ---
+    @Column(length = 12) private String receiptAction = "preguntar";   // nada | imprimir | preguntar
+    @Column(length = 12) private String receiptFormat = "ticket80";    // a4 | ticket80 | ticket58
+    @Column(length = 8) private String receiptQuality = "normal";      // normal | baja
+    private boolean exchangeTicket;
+    // --- Catálogo y finanzas (interruptores) ---
+    private boolean productImages;
+    private boolean services;
+    private boolean weightSales;
+    private boolean cashShipping;
+    private boolean bankReconciliation;
+    private boolean multiCurrency;
     @Column(length = 160) private String businessName = "Mi negocio";
     /** Logo del negocio como data URL (data:image/...;base64,...). Vacío = sin logo. */
     @Column(length = 700000) private String logo = "";
@@ -49,4 +67,35 @@ public class Settings {
     public void setMarkup(BigDecimal v) { markup = v; }
     public boolean isHideOutOfStock() { return hideOutOfStock; }
     public void setHideOutOfStock(boolean v) { hideOutOfStock = v; }
+
+    public String getBusinessColor() { return businessColor; }
+    public void setBusinessColor(String v) { businessColor = v == null ? "" : v; }
+    public String getAddress() { return address; }
+    public void setAddress(String v) { address = v == null ? "" : v; }
+    public String getCity() { return city; }
+    public void setCity(String v) { city = v == null ? "" : v; }
+    public String getPhone() { return phone; }
+    public void setPhone(String v) { phone = v == null ? "" : v; }
+    public String getContactEmail() { return contactEmail; }
+    public void setContactEmail(String v) { contactEmail = v == null ? "" : v; }
+    public String getReceiptAction() { return receiptAction; }
+    public void setReceiptAction(String v) { receiptAction = v == null ? "" : v; }
+    public String getReceiptFormat() { return receiptFormat; }
+    public void setReceiptFormat(String v) { receiptFormat = v == null ? "" : v; }
+    public String getReceiptQuality() { return receiptQuality; }
+    public void setReceiptQuality(String v) { receiptQuality = v == null ? "" : v; }
+    public boolean isExchangeTicket() { return exchangeTicket; }
+    public void setExchangeTicket(boolean v) { exchangeTicket = v; }
+    public boolean isProductImages() { return productImages; }
+    public void setProductImages(boolean v) { productImages = v; }
+    public boolean isServices() { return services; }
+    public void setServices(boolean v) { services = v; }
+    public boolean isWeightSales() { return weightSales; }
+    public void setWeightSales(boolean v) { weightSales = v; }
+    public boolean isCashShipping() { return cashShipping; }
+    public void setCashShipping(boolean v) { cashShipping = v; }
+    public boolean isBankReconciliation() { return bankReconciliation; }
+    public void setBankReconciliation(boolean v) { bankReconciliation = v; }
+    public boolean isMultiCurrency() { return multiCurrency; }
+    public void setMultiCurrency(boolean v) { multiCurrency = v; }
 }

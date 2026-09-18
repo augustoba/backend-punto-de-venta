@@ -22,6 +22,12 @@ public class SettingsService {
         s.setTransferDiscount(in.getTransferDiscount()); s.setDefaultIva(in.getDefaultIva()); s.setMarkup(in.getMarkup());
         s.setHideOutOfStock(in.isHideOutOfStock());
         s.setLogo(validLogo(in.getLogo()));
+        s.setBusinessColor(validColor(in.getBusinessColor())); s.setAddress(in.getAddress()); s.setCity(in.getCity()); s.setPhone(in.getPhone()); s.setContactEmail(in.getContactEmail());
+        s.setReceiptAction(oneOf(in.getReceiptAction(), "preguntar", "nada", "imprimir", "preguntar"));
+        s.setReceiptFormat(oneOf(in.getReceiptFormat(), "ticket80", "a4", "ticket80", "ticket58"));
+        s.setReceiptQuality(oneOf(in.getReceiptQuality(), "normal", "normal", "baja"));
+        s.setExchangeTicket(in.isExchangeTicket()); s.setProductImages(in.isProductImages()); s.setServices(in.isServices()); s.setWeightSales(in.isWeightSales());
+        s.setCashShipping(in.isCashShipping()); s.setBankReconciliation(in.isBankReconciliation()); s.setMultiCurrency(in.isMultiCurrency());
         return s;
     }
 
@@ -33,4 +39,10 @@ public class SettingsService {
         if (logo.length() > 600_000) throw new BusinessException("El logo es demasiado pesado (máximo ~450 KB)");
         return logo;
     }
+
+    /** Color del negocio: #RRGGBB; si viene vacío o inválido se usa el naranja de siempre. */
+    static String validColor(String c) { return c != null && c.matches("#[0-9a-fA-F]{6}") ? c : "#eeb37a"; }
+
+    /** Una de las opciones permitidas; si no, la que se indica como valor por defecto. */
+    static String oneOf(String v, String def, String... opciones) { for (String o : opciones) if (o.equals(v)) return v; return def; }
 }

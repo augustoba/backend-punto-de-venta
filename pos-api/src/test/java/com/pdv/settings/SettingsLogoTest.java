@@ -26,4 +26,20 @@ class SettingsLogoTest {
         assertThrows(BusinessException.class, () -> service.update(withLogo("data:text/html;base64,PHNjcmlwdD4=")));
         assertThrows(BusinessException.class, () -> service.update(withLogo("data:image/png;base64," + "A".repeat(600_001))));
     }
+
+    @Test void guardaLosAjustesNuevosYNormalizaLosInvalidos() {
+        Settings s = service.get();
+        s.setBusinessColor("#112233"); s.setReceiptFormat("a4"); s.setReceiptAction("imprimir"); s.setReceiptQuality("baja");
+        s.setExchangeTicket(true); s.setProductImages(true); s.setAddress("Calle 123");
+        Settings g = service.update(s);
+        assertEquals("#112233", g.getBusinessColor()); assertEquals("a4", g.getReceiptFormat()); assertEquals("imprimir", g.getReceiptAction());
+        assertTrue(g.isExchangeTicket()); assertTrue(g.isProductImages()); assertEquals("Calle 123", g.getAddress());
+    }
+
+    @Test void opcionesInvalidasVuelvenAlValorPorDefecto() {
+        Settings s = service.get();
+        s.setBusinessColor("rojo"); s.setReceiptFormat("x"); s.setReceiptAction("y"); s.setReceiptQuality("z");
+        Settings g = service.update(s);
+        assertEquals("#eeb37a", g.getBusinessColor()); assertEquals("ticket80", g.getReceiptFormat()); assertEquals("preguntar", g.getReceiptAction()); assertEquals("normal", g.getReceiptQuality());
+    }
 }
