@@ -74,9 +74,12 @@ public class SalesService {
         }
         subtotal = r2(subtotal);
 
+        // discountPct > 0 es un descuento; < 0 es un recargo (p. ej. -10 = +10 %).
         BigDecimal pct = in.discountPct() == null ? BigDecimal.ZERO : in.discountPct();
+        if (pct.compareTo(new BigDecimal("100")) > 0) throw new BusinessException("El descuento no puede superar el 100 %");
+        if (pct.compareTo(new BigDecimal("-100")) < 0) throw new BusinessException("El recargo no puede superar el 100 %");
         BigDecimal auto = settings.get().getTransferDiscount();
-        if (!Boolean.FALSE.equals(in.autoDiscount()) && in.method() == Method.TRANSFERENCIA && auto.signum() > 0
+        if (!Boolean.FALSE.equals(in.autoDiscount()) && in.method() == Method.TRANSFERENCIA && auto.signum() > 0 && pct.signum() >= 0   // un recargo no recibe el descuento automático
                 && (pct.signum() == 0 || !settings.get().isCumulativeDiscounts())) pct = pct.max(auto);
         BigDecimal discountAmount = r2(subtotal.multiply(pct).movePointLeft(2));
         BigDecimal total = r2(subtotal.subtract(discountAmount));

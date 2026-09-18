@@ -120,4 +120,13 @@ class SalesServiceTest {
         sales.register(venta(null, combo.getId(), 1, Method.EFECTIVO, true, null), "t");
         assertEquals(8, catalog.get(a.getId()).getStock());
     }
+
+    @Test void recargoSumaAlTotalYNoRecibeDescuentoAutomatico() {
+        Product p = catalog.create(new CatalogService.ProductData("R" + System.nanoTime(), "", null, null, new BigDecimal("50"), new BigDecimal("1000"), BigDecimal.ZERO, 0, 0, new BigDecimal("21"), null), 5, "t");
+        Sale s = sales.register(new SalesService.SaleIn(null, List.of(new SalesService.LineIn(p.getId(), 1, null, null)), new BigDecimal("-10"), Sale.Method.EFECTIVO, true, "", false, null, null), "t");
+        assertEquals(0, new BigDecimal("1100.00").compareTo(s.getTotal()));
+        assertEquals(0, new BigDecimal("-100.00").compareTo(s.getDiscountAmount()));
+        assertThrows(BusinessException.class, () -> sales.register(new SalesService.SaleIn(null, List.of(new SalesService.LineIn(p.getId(), 1, null, null)), new BigDecimal("-150"), Sale.Method.EFECTIVO, true, "", false, null, null), "t"));
+        assertThrows(BusinessException.class, () -> sales.register(new SalesService.SaleIn(null, List.of(new SalesService.LineIn(p.getId(), 1, null, null)), new BigDecimal("120"), Sale.Method.EFECTIVO, true, "", false, null, null), "t"));
+    }
 }
