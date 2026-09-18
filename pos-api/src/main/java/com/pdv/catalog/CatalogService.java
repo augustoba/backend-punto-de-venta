@@ -25,11 +25,16 @@ public class CatalogService {
     public CatalogService(ProductRepository p, StockMoveRepository m, PriceChangeRepository c) { this.products = p; this.moves = m; this.prices = c; }
 
     public record ProductData(String name, String barcode, Long categoryId, Long supplierId, BigDecimal cost, BigDecimal price,
-                              BigDecimal offer, Integer lowStock, Integer idealStock, BigDecimal iva, List<Product.ComboItem> combo, String image) {
+                              BigDecimal offer, Integer lowStock, Integer idealStock, BigDecimal iva, List<Product.ComboItem> combo, String image, Boolean service) {
+        /** Sin dato de servicio: en la actualización conserva el valor que ya tenía. */
+        public ProductData(String name, String barcode, Long categoryId, Long supplierId, BigDecimal cost, BigDecimal price,
+                           BigDecimal offer, Integer lowStock, Integer idealStock, BigDecimal iva, List<Product.ComboItem> combo, String image) {
+            this(name, barcode, categoryId, supplierId, cost, price, offer, lowStock, idealStock, iva, combo, image, null);
+        }
         /** Sin foto: en la actualización deja la que ya tenía. */
         public ProductData(String name, String barcode, Long categoryId, Long supplierId, BigDecimal cost, BigDecimal price,
                            BigDecimal offer, Integer lowStock, Integer idealStock, BigDecimal iva, List<Product.ComboItem> combo) {
-            this(name, barcode, categoryId, supplierId, cost, price, offer, lowStock, idealStock, iva, combo, null);
+            this(name, barcode, categoryId, supplierId, cost, price, offer, lowStock, idealStock, iva, combo, null, null);
         }
     }
 
@@ -83,6 +88,7 @@ public class CatalogService {
         if (d.idealStock() != null) p.setIdealStock(d.idealStock());
         if (d.iva() != null) p.setIva(d.iva());
         if (d.combo() != null) { p.getCombo().clear(); p.getCombo().addAll(d.combo()); }
+        if (d.service() != null) p.setService(d.service());
         if (d.image() != null) p.setImage(validImage(d.image()));   // null = no tocar; "" = quitar
     }
 
@@ -92,6 +98,7 @@ public class CatalogService {
 
     /** Único punto por el que cambia el stock: deja siempre una fila en el libro. */
     public void move(Product p, int delta, String reason, String ref, String user) {
+        if (p.isService()) return;   // los servicios no llevan stock
         if (delta == 0) return;
         moves.save(new StockMove(p.getId(), p.getStock(), delta, reason, ref, user));
         p.setStock(p.getStock() + delta);

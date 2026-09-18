@@ -15,7 +15,7 @@ public class CatalogController {
 
     public record ProductOut(Long id, String name, String barcode, Long categoryId, Long supplierId, BigDecimal cost, BigDecimal price,
                              BigDecimal offer, int stock, int lowStock, int idealStock, BigDecimal iva, boolean archived,
-                             boolean combo, List<Product.ComboItem> components, String image) {}
+                             boolean combo, List<Product.ComboItem> components, String image, boolean service) {}
     public record CreateIn(ProductData data, Integer initialStock) {}
     public record StockIn(int value) {}
     public record IdsIn(List<Long> ids, boolean flag) {}
@@ -23,7 +23,7 @@ public class CatalogController {
 
     private ProductOut out(Product p) {
         return new ProductOut(p.getId(), p.getName(), p.getBarcode(), p.getCategoryId(), p.getSupplierId(), p.getCost(), p.getPrice(), p.getOffer(),
-                service.stockOf(p), p.getLowStock(), p.getIdealStock(), p.getIva(), p.isArchived(), p.isCombo(), p.getCombo(), p.getImage());
+                service.stockOf(p), p.getLowStock(), p.getIdealStock(), p.getIva(), p.isArchived(), p.isCombo(), p.getCombo(), p.getImage(), p.isService());
     }
 
     @GetMapping("/products") public List<ProductOut> list(@RequestParam(defaultValue = "false") boolean archived) { return service.list(archived).stream().map(this::out).toList(); }

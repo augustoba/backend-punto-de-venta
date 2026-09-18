@@ -77,4 +77,15 @@ class CatalogServiceTest {
         assertEquals("", service.get(p.getId()).getImage(), "vacío la quita");
         assertThrows(BusinessException.class, () -> service.create(new ProductData("X", "", null, null, BigDecimal.ONE, BigDecimal.TEN, BigDecimal.ZERO, 0, 0, new BigDecimal("21"), null, "http://x/y.png"), 0, "t"));
     }
+
+    @Test void unServicioNoLlevaStock() {
+        Product s = service.create(new ProductData("Corte de pelo", "", null, null, BigDecimal.ZERO, new BigDecimal("3000"), BigDecimal.ZERO, 0, 0, new BigDecimal("21"), null, null, true), 5, "t");
+        assertTrue(s.isService());
+        assertEquals(0, s.getStock(), "el stock inicial se ignora");
+        service.consume(s.getId(), 3, "Venta en caja", "x", "t");
+        assertEquals(0, service.get(s.getId()).getStock(), "vender un servicio no descuenta ni queda negativo");
+        assertTrue(service.stockMoves(s.getId()).isEmpty(), "no genera movimientos de stock");
+        Product actualizado = service.update(s.getId(), new ProductData("Corte de pelo", "", null, null, BigDecimal.ZERO, new BigDecimal("3500"), BigDecimal.ZERO, 0, 0, new BigDecimal("21"), null), "t");
+        assertTrue(actualizado.isService(), "sin dato en la actualización conserva que es un servicio");
+    }
 }

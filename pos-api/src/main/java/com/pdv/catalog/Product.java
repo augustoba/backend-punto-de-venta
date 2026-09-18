@@ -34,6 +34,8 @@ public class Product {
     @Column(precision = 5, scale = 2) private BigDecimal iva = new BigDecimal("21");
     /** Foto del producto como data URL (JPEG/PNG/WebP chica). Vacío = sin foto. */
     @Column(length = 300000) private String image = "";
+    /** Servicio: se vende pero no lleva stock (no genera movimientos ni se descuenta). */
+    private boolean service;
     private boolean archived;
     private Instant createdAt = Instant.now();
     @ElementCollection(fetch = FetchType.EAGER)
@@ -42,6 +44,8 @@ public class Product {
 
     public Long getId() { return id; }
     public String getName() { return name; }
+    public boolean isService() { return service; }
+    public void setService(boolean v) { service = v; }
     public String getImage() { return image; }
     public void setImage(String v) { image = v == null ? "" : v; }
     public void setName(String v) { name = v; }
