@@ -18,7 +18,7 @@ public class CashSession {
     @Column(length = 500) private String notesOpen = "";
     private Instant closedAt;
     @Column(precision = 14, scale = 2) private BigDecimal expected;
-    @Column(precision = 14, scale = 2) private BigDecimal real;
+    @Column(name = "real_amount", precision = 14, scale = 2) private BigDecimal real;
     @Column(precision = 14, scale = 2) private BigDecimal diff;
     @Column(length = 500) private String notesClose = "";
     private boolean verified;
