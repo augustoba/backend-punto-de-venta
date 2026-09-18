@@ -1,5 +1,6 @@
 package com.pdv.sales;
 
+import com.pdv.billing.BillingService;
 import com.pdv.catalog.CatalogService;
 import com.pdv.catalog.Product;
 import com.pdv.common.BusinessException;
@@ -30,9 +31,10 @@ public class SalesService {
     private final TreasuryService treasury;
     private final PartyService parties;
     private final SettingsService settings;
+    private final BillingService billing;
 
-    public SalesService(SaleRepository s, CashSessionRepository c, CatalogService cat, TreasuryService t, PartyService p, SettingsService st) {
-        this.sales = s; this.sessions = c; this.catalog = cat; this.treasury = t; this.parties = p; this.settings = st;
+    public SalesService(SaleRepository s, CashSessionRepository c, CatalogService cat, TreasuryService t, PartyService p, SettingsService st, BillingService b) {
+        this.sales = s; this.sessions = c; this.catalog = cat; this.treasury = t; this.parties = p; this.settings = st; this.billing = b;
     }
 
     public record LineIn(Long productId, int qty, BigDecimal price, BigDecimal discountUnit) {}
@@ -87,6 +89,8 @@ public class SalesService {
             sale.setAccountId(target.getId());
             treasury.addMovement(target.getId(), total, "Ventas", "Ventas del local", label, null, "venta", ref, user);
         }
+        if (in.invoice()) billing.issue(in.customerId(), sale.getLines().stream().map(l -> l.name).collect(java.util.stream.Collectors.joining(", ")), total, null);
+        if (in.budgetId() != null) billing.markSold(in.budgetId());
         return sale;
     }
 
